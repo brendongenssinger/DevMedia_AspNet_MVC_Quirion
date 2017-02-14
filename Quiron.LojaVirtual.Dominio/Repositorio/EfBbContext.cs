@@ -11,15 +11,24 @@ namespace Quiron.LojaVirtual.Dominio.Repositorio
 {
     public class EfBbContext : DbContext
     {
-        // Falar qual será o meu mapeamento.
+        /// Falar qual será o meu mapeamento.
 
         public DbSet<Produto> Produtos { get; set; }
+
+
+        /// <Ele sobrescreve o nome de produto para produtos>
+        /// 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<Produto>().ToTable("Produtos");
+        }
     }
 
-    // Remove a pluralização
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    {
-        modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        modelBuilder.Entity<Produto>().ToTable("Produtos"); 
-    }
+    
+   
 }
